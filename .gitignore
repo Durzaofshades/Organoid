@@ -12,3 +12,4 @@ data/*
 
 # Don't track Python Cache 
 */__pycache__/
+/src/.idea
