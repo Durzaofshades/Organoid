@@ -1,0 +1,14 @@
+# Ignore any ~ files 
+# (these are usually in progress auto saves for editors)
+*~
+
+# Ignores any files inside the data directory
+# We don't want to upload GB's of stuff to github
+# we can keep the folder location though as a hint to put stuff in there
+data/*
+
+# Don't upload the environment
+.venv/
+
+# Don't track Python Cache 
+*/__pycache__/
