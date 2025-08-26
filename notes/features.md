@@ -41,4 +41,9 @@ Per Organoid
     bfs on a selected pixel, get the list of all connected pixels
     within the color threshold
     with sensitivity variable 
+- check slide background
+    check top 5x5 area for background color
+    color might differ per slide
+    staining may differ
+    maybe check per color peak
 

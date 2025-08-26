@@ -2,7 +2,7 @@
 import skimage.io as skimage
 import numpy as np
 
-class image_matrix:
+class image_array:
     """
     Class to hold a pixel matrix
     """
