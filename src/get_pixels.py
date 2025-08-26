@@ -4,6 +4,7 @@ Module to create a pixel matrix from an image
 
 import numpy as np
 from skimage.io import imread
+from image import image_matrix
 
 def get_pixel_matrix(path):
     """
@@ -18,8 +19,9 @@ def get_pixel_matrix(path):
     pixels_list = pixels.tolist()
     return pixels_list
 
-# quick test
-def test():
-    test_matrix = get_pixel_matrix("../data/Skin Organoids (tif)/5x/Donor 3, Candin, 12hr, Slide 8, 5x_ch00.tif")
-    print(test_matrix)
-    print(type(test_matrix))
+# if this file is ran by itself, run this
+if __name__ == "__main__":
+    test_image = "../data/Donor 3, Candin, 12hr, Slide 8, 5x_ch00.tif"
+    test_matrix = image_matrix(test_image)
+    print(str(test_matrix))
+    print(type(test_matrix.data))
