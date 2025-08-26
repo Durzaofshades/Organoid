@@ -47,3 +47,15 @@ class image_array:
         # TODO make this the array index operation
 
         return self.data[y + x * self.height]
+    
+    def get_row(self, index) -> list:
+        data = []
+        for x in range(self.width):
+            data.append(self.get_point(x, index))
+        return data
+
+    def get_column(self, index) -> list:
+        data = []
+        for y in range(self.height):
+            data.append(self.get_point(index, y))
+        return data
