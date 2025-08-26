@@ -18,7 +18,11 @@ class image_array:
         self.height = image.shape[0]
         self.width  = image.shape[1]
         color       = image.shape[2]
-        y_coords, x_coords = np.meshgrid(
+
+        # NOTE
+        # Image returns transposed in numpy
+
+        x_coords, y_coords= np.meshgrid(
             np.arange(self.width), 
             np.arange(self.height), 
             indexing="ij"
@@ -42,4 +46,4 @@ class image_array:
         """
         # TODO make this the array index operation
 
-        return self.data[x + y * width]
+        return self.data[y + x * self.height]
