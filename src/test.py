@@ -1,10 +1,12 @@
 #!/bin/python
 
 """
-Module to create a pixel matrix from an image
+Module to test functions
 """
 
 import sys
+import numpy
+
 from image import image_array
 
 def test_get_point(image) -> bool:
@@ -12,25 +14,28 @@ def test_get_point(image) -> bool:
     y = 200
     point = image.get_point(x,y)
     fail = False
-
+    print(point)
     if point[0] != x or point[1] != y:
         fail = True
         print(point)
 
     return not fail
 
-def test_image_axis(image) -> bool:
+def test_image_axis(image, width, height) -> bool:
     x = image.width
     y = image.height
     print(f"Image (x,y) Dimensions are {x,y}")
     # Test image is 1280x960
-    return (x,y) == (1280, 960)
+    return (x,y) == (width, height)
 
 def test_get_array(image) -> bool:
     fail = False
 
-    #print(str(image))
+    print(str(image))
     datatype = type(image.data)
+    print(datatype)
+    if datatype != numpy.ndarray:
+        fail = True
 
     return not fail
 
@@ -45,10 +50,10 @@ def test_get_row(image) -> bool:
     return not fail
 
 if __name__ == "__main__":
-    path = "../data/Donor 3, Candin, 12hr, Slide 8, 5x_ch00.tif"
+    path = "../data/Skin Organoids (tif)/5x/Donor 3, Candin, 12hr, Slide 8, 5x_ch00.tif"
     image = image_array(path)
     
-    axis = test_image_axis(image)
+    axis = test_image_axis(image, 1280, 960)
     point = test_get_point(image)
     array = test_get_array(image)
     row = test_get_row(image)
