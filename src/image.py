@@ -140,8 +140,6 @@ class image_array:
     
     def show(self) -> None:
 
-        rgb = [r,g,b]
-
         figure = pyplot.figure()
         data = self.data
 
