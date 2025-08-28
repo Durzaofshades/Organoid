@@ -9,31 +9,65 @@ import numpy
 
 from image import image_array
 
-def test_get_point(image) -> bool:
-    x = 100
-    y = 200
-    point = image.get_point(x,y)
+def test_get_point(image, x, y) -> bool:
     fail = False
-    print(point)
+    try:
+        point = image.get_point(x,y)
+    except IndexError:
+        fail = True
+        print(f"Index Error: Failure to get point at ({x}, {y})")
+        return not fail
+
+    if not noprint:
+        print(point)
+
     if point[0] != x or point[1] != y:
         fail = True
         print(point)
 
     return not fail
 
+def test_set_point(image) -> bool:
+    """
+    test set point function
+    depends on the get point function
+    """
+    fail = False
+    x = 100
+    y = 200
+
+    # Get original point
+    p1 = image.get_point(x,y)
+    image.set_point(x,y, 0, 255, 0)
+    
+    # Get new point
+    p2 = image.get_point(x,y)
+    if p2[2] != 0 or p2[3] != 255 or p2[4] != 0:
+        fail = True
+        print(p2)
+
+    # Set it back to normal
+    image.set_point(x,y, p1[2], p1[3], p1[4])
+
+    return not fail
+
 def test_image_axis(image, width, height) -> bool:
     x = image.width
     y = image.height
-    print(f"Image (x,y) Dimensions are {x,y}")
+    if not noprint:
+        print(f"Image (x,y) Dimensions are {x,y}")
     # Test image is 1280x960
     return (x,y) == (width, height)
 
 def test_get_array(image) -> bool:
     fail = False
 
-    print(str(image))
     datatype = type(image.data)
-    print(datatype)
+
+    if not noprint:
+        print(str(image))
+        print(datatype)
+
     if datatype != numpy.ndarray:
         fail = True
 
@@ -50,19 +84,44 @@ def test_get_row(image) -> bool:
     return not fail
 
 if __name__ == "__main__":
+    global noprint
+
+    # if -noprint is passed in as an argument, don't print NORMAL prints
+    # still print test failure error messages
+    if "-noprint" in sys.argv:
+        noprint = True
+    else:
+        noprint = False
+
     path = "../data/Skin Organoids (tif)/5x/Donor 3, Candin, 12hr, Slide 8, 5x_ch00.tif"
     image = image_array(path)
     
     axis = test_image_axis(image, 1280, 960)
-    point = test_get_point(image)
+
+    get_point_first = test_get_point(image, 0, 0)
+    get_point_middle = test_get_point(image, int(image.width/2), int(image.height/2))
+    get_point_last = test_get_point(image, image.width-1, image.height-1)
+    
+    set_point = test_set_point(image)
     array = test_get_array(image)
     row = test_get_row(image)
     
-    success = all([axis, point, array, row])
+    success = all([
+        axis, 
+        get_point_first, 
+        get_point_middle, 
+        get_point_last, 
+        set_point, 
+        array, 
+        row
+        ])
     
     # TODO print each tests value
     print(f"Axis test status: {axis}")
-    print(f"Point test status: {point}")
+    print(f"Get First Point test status: {get_point_first}")
+    print(f"Get Middle Point test status: {get_point_middle}")
+    print(f"Get Last Point test status: {get_point_last}")
+    print(f"Set Point test status: {set_point}")
     print(f"Array test status: {array}")
     print(f"Row test status: {row}")
 
