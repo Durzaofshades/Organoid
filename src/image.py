@@ -3,6 +3,7 @@ global changed_image
 
 import skimage
 import numpy as np
+import matplotlib.pyplot as pyplot
 
 class image_array:
     """
@@ -38,8 +39,29 @@ class image_array:
             image.reshape(-1, color)
             ))
 
-        pixels_list = pixels
-        self.data = pixels_list
+        x = []
+        y = []
+        r = []
+        g = []
+        b = []
+
+        for row in pixels:
+            x.append(row[0])
+            y.append(row[1])
+            r.append(row[2])
+            g.append(row[3])
+            b.append(row[4])
+
+        # Colors should be uint8
+
+        r = np.array(r, dtype = np.uint8)
+        g = np.array(g, dtype = np.uint8)
+        b = np.array(b, dtype = np.uint8)
+
+        # ndarray.astype(dtype, order='K', casting='unsafe', subok=True, copy=True)
+
+        self.data = np.array([x,y,r,g,b])
+        return None
 
     def __str__(self) -> str:
         return str(self.data)
@@ -56,13 +78,29 @@ class image_array:
         if y >= self.height:
             raise Exception(f"Out of Bounds error, {y} > {self.height -1}")
 
-        index = y + (x * self.height)
-        return self.data[index]
+        index = self.get_index(x,y)
+        point = [0] * 5
+
+        point[0] = self.data[0][index]
+        point[1] = self.data[1][index]
+        point[2] = self.data[2][index]
+        point[3] = self.data[3][index]
+        point[4] = self.data[4][index]
         
+        return point
+
     def set_point(self, x:int, y:int, r:int, g:int, b:int) -> None:
         global changed_image
         changed_image = True
-        self.data[(x*self.height) + y][2:5] = [r,g,b]
+
+        index = self.get_index(x,y)
+
+        self.data[0][index] = x
+        self.data[1][index] = y
+        self.data[2][index] = r
+        self.data[3][index] = g
+        self.data[4][index] = b
+
         return None
 
     def get_row(self, index) -> list:
@@ -81,8 +119,12 @@ class image_array:
         skimage.io.imsave(path, self.data, check_contrast=False)
         return
 
-    def __get_index(self, x:int, y:int) -> int:
-        
+    def get_index(self, x:int, y:int) -> int:
+        """
+        Caluclated the Row index of any given pixel
+        """
+
+        # caluclates row index
         # using a 2x2 table as an example for the calculation:
         # | x | y | formula | value
         # | 0 | 0 | 0 + (0 * 2) | 0
@@ -90,6 +132,35 @@ class image_array:
         # | 0 | 1 | 0 + (1 * 2) | 2
         # | 1 | 1 | 1 + (1 * 2) | 3
 
-        index = x + (y * self.width)
+        # index = x + (y * self.width)
+        index = y + (x * self.height)
+
+        assert(type(index) is int)
+        return index
+    
+    def show(self) -> None:
+
+        x = self.data[0]
+        y = self.data[1]
+        r = self.data[2]
+        g = self.data[3]
+        b = self.data[4]
+        rgb = [r,g,b]
+
+        figure = pyplot.figure()
+
+        #figure.set_autoscale_on(False)
+        #figure.set_xlim(0,128)
+        #figure.set_ylim(0,50)
+
+        #pyplot.xlabel("x")
+        #pyplot.ylabel("y")
+        
+        pyplot.imshow([x,y,r,g,b])
+        pyplot.show()
+        
+
+
+
 
 

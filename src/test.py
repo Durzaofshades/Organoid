@@ -68,6 +68,9 @@ def test_get_array(image) -> bool:
         print(str(image))
         print(datatype)
 
+    for column in image.data:
+        print(column.dtype)
+
     if datatype != numpy.ndarray:
         fail = True
 
@@ -95,13 +98,12 @@ if __name__ == "__main__":
 
     path = "../data/Skin Organoids (tif)/5x/Donor 3, Candin, 12hr, Slide 8, 5x_ch00.tif"
     image = image_array(path)
-    
-    axis = test_image_axis(image, 1280, 960)
 
     get_point_first = test_get_point(image, 0, 0)
     get_point_middle = test_get_point(image, int(image.width/2), int(image.height/2))
     get_point_last = test_get_point(image, image.width-1, image.height-1)
     
+    axis = test_image_axis(image, 1280, 960)
     set_point = test_set_point(image)
     array = test_get_array(image)
     row = test_get_row(image)
@@ -124,6 +126,21 @@ if __name__ == "__main__":
     print(f"Set Point test status: {set_point}")
     print(f"Array test status: {array}")
     print(f"Row test status: {row}")
+
+    # Print section
+    print(f"Length = {len(image.data[0])}")
+    
+    out = open("test.csv", "w")
+    sep = ",\t"
+    for x in range(len(image.data[0])):
+        text = ""
+        text += str(image.data[0][x]) + sep
+        text += str(image.data[1][x]) + sep
+        text += str(image.data[2][x]) + sep
+        text += str(image.data[3][x]) + sep
+        text += str(image.data[4][x]) + "\n"
+        out.write(text)
+
 
     if success:
         print("All Tests Passed")

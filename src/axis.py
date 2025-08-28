@@ -36,7 +36,9 @@ def scan(image, threshold) -> None:
 
 if __name__ == "__main__":
     test_image = "../data/Skin Organoids (tif)/5x/Donor 3, Mock, 24hr, Slide 8, 5x_ch00.tif"
+    test_path = "../data/test/"
     image = image_array(test_image)
-    outline = scan(image, 150)
-    test_path = "../data/test.tff"
-    image.save(test_path)
+    
+    #outline = scan(image, 150)
+    # image.save(f"{test_path}outline.png")
+    image.show()
