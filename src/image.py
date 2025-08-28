@@ -1,5 +1,7 @@
 
-import skimage.io as skimage
+global changed_image
+
+import skimage
 import numpy as np
 
 class image_array:
@@ -8,11 +10,13 @@ class image_array:
     """
 
     def __init__(self, path:str) -> None:
+        global changed_image
+        changed_image = False
         # Initialize variables
         self.data = []
 
         # Returns Nested Lists
-        image = skimage.imread(path)
+        image = skimage.io.imread(path)
 
         # Transform to xy, rgb
         self.height = image.shape[0]
@@ -46,8 +50,21 @@ class image_array:
         """
         # TODO make this the array index operation
 
-        return self.data[y + x * self.height]
-    
+        if x >= self.width:
+            raise Exception(f"Out of Bounds error, {x} > {self.width -1}")
+
+        if y >= self.height:
+            raise Exception(f"Out of Bounds error, {y} > {self.height -1}")
+
+        index = y + (x * self.height)
+        return self.data[index]
+        
+    def set_point(self, x:int, y:int, r:int, g:int, b:int) -> None:
+        global changed_image
+        changed_image = True
+        self.data[(x*self.height) + y][2:5] = [r,g,b]
+        return None
+
     def get_row(self, index) -> list:
         data = []
         for x in range(self.width):
@@ -59,3 +76,20 @@ class image_array:
         for y in range(self.height):
             data.append(self.get_point(index, y))
         return data
+
+    def save(self, path) -> None:
+        skimage.io.imsave(path, self.data, check_contrast=False)
+        return
+
+    def __get_index(self, x:int, y:int) -> int:
+        
+        # using a 2x2 table as an example for the calculation:
+        # | x | y | formula | value
+        # | 0 | 0 | 0 + (0 * 2) | 0
+        # | 1 | 0 | 1 + (0 * 2) | 1
+        # | 0 | 1 | 0 + (1 * 2) | 2
+        # | 1 | 1 | 1 + (1 * 2) | 3
+
+        index = x + (y * self.width)
+
+
