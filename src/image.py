@@ -140,25 +140,28 @@ class image_array:
     
     def show(self) -> None:
 
-        x = self.data[0]
-        y = self.data[1]
-        r = self.data[2]
-        g = self.data[3]
-        b = self.data[4]
         rgb = [r,g,b]
 
         figure = pyplot.figure()
+        data = self.data
 
-        #figure.set_autoscale_on(False)
-        #figure.set_xlim(0,128)
-        #figure.set_ylim(0,50)
+        pixels = data.T
 
-        #pyplot.xlabel("x")
-        #pyplot.ylabel("y")
-        
-        pyplot.imshow([x,y,r,g,b])
-        pyplot.show()
-        
+        # Get image dimensions
+        width = 1280
+        height = 960
+
+        # Initialize blank image (height x width x 3)
+        image = np.zeros((height, width, 3), dtype=np.uint8)
+
+        # Fill in pixel values
+        for x, y, r, g, b in pixels:
+            image[int(y), int(x)] = [r, g, b]  # Note: y is row, x is column
+
+        # Display image
+        pyplot.imshow(image)
+        pyplot.axis('off')
+        pyplot.show()       
 
 
 
