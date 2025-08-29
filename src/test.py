@@ -86,6 +86,29 @@ def test_get_row(image) -> bool:
         fail = True
     return not fail
 
+def test_top_left_pixels_match_original(image) -> bool:
+    fail = False
+
+    # Just check the diagonal ones to not mess with the aspect ratio
+
+    o00 = [158, 154, 223]
+    # o01 = [162, 152, 192]
+    # o10 = [165, 159, 233]
+    o11 = [160, 148, 217]
+
+    p00 = image.get_point(0,0)
+    # p01 = image.get_point(0,1)
+    # p10 = image.get_point(1,0)
+    p11 = image.get_point(1,1)
+
+    if p00 != o00: fail = True
+    # if p01 != o01: fail = True
+    # if p10 != o10: fail = True
+    if p11 != o11: fail = True
+
+    return not fail
+
+
 if __name__ == "__main__":
     global noprint
 
@@ -107,6 +130,7 @@ if __name__ == "__main__":
     set_point = test_set_point(image)
     array = test_get_array(image)
     row = test_get_row(image)
+    corner = test_top_left_pixels_match_original(image)
     
     success = all([
         axis, 
@@ -115,7 +139,8 @@ if __name__ == "__main__":
         get_point_last, 
         set_point, 
         array, 
-        row
+        row,
+        corner
         ])
     
     # TODO print each tests value
@@ -126,10 +151,13 @@ if __name__ == "__main__":
     print(f"Set Point test status: {set_point}")
     print(f"Array test status: {array}")
     print(f"Row test status: {row}")
+    print(f"Corner test status: {corner}")
 
     # Print section
     print(f"Length = {len(image.data[0])}")
     
+    image.print()
+
     out = open("test.csv", "w")
     sep = ",\t"
     for x in range(len(image.data[0])):

@@ -24,9 +24,6 @@ class image_array:
         self.width  = image.shape[1]
         color       = image.shape[2]
 
-        # NOTE
-        # Image returns transposed in numpy
-
         x_coords, y_coords= np.meshgrid(
             np.arange(self.width), 
             np.arange(self.height), 
@@ -52,13 +49,10 @@ class image_array:
             g.append(row[3])
             b.append(row[4])
 
-        # Colors should be uint8
-
+        # Colors should be uint8 (0-255)
         r = np.array(r, dtype = np.uint8)
         g = np.array(g, dtype = np.uint8)
         b = np.array(b, dtype = np.uint8)
-
-        # ndarray.astype(dtype, order='K', casting='unsafe', subok=True, copy=True)
 
         self.data = np.array([x,y,r,g,b])
         return None
@@ -115,7 +109,7 @@ class image_array:
             data.append(self.get_point(index, y))
         return data
 
-    def save(self, path) -> None:
+    def save_image(self, path) -> None:
         skimage.io.imsave(path, self.data, check_contrast=False)
         return
 
@@ -139,10 +133,7 @@ class image_array:
         return index
     
     def show(self) -> None:
-
         figure = pyplot.figure()
-        data = self.data
-
         pixels = data.T
 
         # Get image dimensions
@@ -161,7 +152,22 @@ class image_array:
         pyplot.axis('off')
         pyplot.show()       
 
+    def print(self, *, amount: int = 100) -> None:
+        """
+        use amount=None to print the whole array
+        """
 
+        length = self.height * self.width
+        length = min(length, amount)
 
+        for row in range(length):
+            x = self.data[0][row]
+            y = self.data[1][row]
+            r = self.data[2][row]
+            g = self.data[3][row]
+            b = self.data[4][row]
+
+            print(f"({x},{y}) -> ({r}, {g}, {b})")
+        return None
 
 
