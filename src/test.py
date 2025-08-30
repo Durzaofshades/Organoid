@@ -156,7 +156,7 @@ if __name__ == "__main__":
     # Print section
     print(f"Length = {len(image.data[0])}")
     
-    image.print()
+    # image.print()
 
     out = open("test.csv", "w")
     sep = ",\t"

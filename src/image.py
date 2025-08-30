@@ -24,15 +24,15 @@ class image_array:
         self.width  = image.shape[1]
         color       = image.shape[2]
 
-        x_coords, y_coords= np.meshgrid(
-            np.arange(self.width), 
-            np.arange(self.height), 
+        y_coords, x_coords = np.meshgrid(
+            np.arange(self.height),
+            np.arange(self.width),
             indexing="ij"
-            )
+        )
 
         pixels = np.column_stack((
-            x_coords.ravel(), 
-            y_coords.ravel(), 
+            x_coords.ravel(),
+            y_coords.ravel(),
             image.reshape(-1, color)
             ))
 
@@ -55,7 +55,6 @@ class image_array:
         b = np.array(b, dtype = np.uint8)
 
         self.data = np.array([x,y,r,g,b])
-        return None
 
     def __str__(self) -> str:
         return str(self.data)
@@ -131,26 +130,24 @@ class image_array:
 
         assert(type(index) is int)
         return index
-    
+
     def show(self) -> None:
-        figure = pyplot.figure()
-        pixels = data.T
+        pixels = self.data.T
 
-        # Get image dimensions
-        width = 1280
-        height = 960
+        width = int(pixels[:, 0].max()) + 1
+        height = int(pixels[:, 1].max()) + 1
 
-        # Initialize blank image (height x width x 3)
         image = np.zeros((height, width, 3), dtype=np.uint8)
 
-        # Fill in pixel values
-        for x, y, r, g, b in pixels:
-            image[int(y), int(x)] = [r, g, b]  # Note: y is row, x is column
+        x = pixels[:, 0].astype(int)
+        y = pixels[:, 1].astype(int)
+        rgb = pixels[:, 2:5].astype(np.uint8)
+        image[y, x] = rgb
 
-        # Display image
+        # Show image
         pyplot.imshow(image)
-        pyplot.axis('off')
-        pyplot.show()       
+        pyplot.axis("off")
+        pyplot.show()
 
     def print(self, *, amount: int = 100) -> None:
         """
