@@ -119,6 +119,7 @@ if __name__ == "__main__":
     else:
         noprint = False
 
+
     path = "../data/Skin Organoids (tif)/5x/Donor 3, Candin, 12hr, Slide 8, 5x_ch00.tif"
     image = image_array(path)
 
@@ -169,6 +170,8 @@ if __name__ == "__main__":
         text += str(image.data[4][x]) + "\n"
         out.write(text)
 
+    if "-show" in sys.argv:
+        image.show()
 
     if success:
         print("All Tests Passed")
