@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# in the terminal run reformat on a folder to sort each file based on name
+
 target="$1"
 
 (
