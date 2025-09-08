@@ -7,7 +7,7 @@ Module to test functions
 import sys
 import numpy
 
-from image import image_array
+from image import ImageArray
 
 def test_get_point(image, x, y) -> bool:
     fail = False
@@ -121,7 +121,7 @@ if __name__ == "__main__":
 
 
     path = "../data/Skin Organoids (tif)/5x/Donor 3, Candin, 12hr, Slide 8, 5x_ch00.tif"
-    image = image_array(path)
+    image = ImageArray(path)
 
     get_point_first = test_get_point(image, 0, 0)
     get_point_middle = test_get_point(image, int(image.width/2), int(image.height/2))

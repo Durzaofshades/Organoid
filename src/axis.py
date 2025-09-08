@@ -2,11 +2,11 @@
 Module to scan each axis for organoid borders
 """
 
-from image import image_array
+from image import ImageArray
 
 def scan(image, threshold) -> None:
     """
-    given an image, and a r+g+b threshold, 
+    given an image, and an r+g+b threshold,
     return the outline of the image
     (outline is the leftmost and rightmost point that pass the threshold
     """
@@ -37,8 +37,8 @@ def scan(image, threshold) -> None:
 if __name__ == "__main__":
     test_image = "../data/Skin Organoids (tif)/5x/Donor 3, Mock, 24hr, Slide 8, 5x_ch00.tif"
     test_path = "../data/test/"
-    image = image_array(test_image)
+    image = ImageArray(test_image)
     
-    #outline = scan(image, 150)
+    # outline = scan(image, 150)
     # image.save(f"{test_path}outline.png")
     image.show()

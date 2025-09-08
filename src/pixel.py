@@ -1,4 +1,4 @@
-class pixel:
+class Pixel:
     """
     class representing pixel for readability reasons
     """

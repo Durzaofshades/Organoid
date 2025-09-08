@@ -5,7 +5,7 @@ import skimage
 import numpy as np
 import matplotlib.pyplot as pyplot
 
-class image_array:
+class ImageArray:
     """
     Class to hold a pixel matrix
     """
@@ -114,10 +114,10 @@ class image_array:
 
     def get_index(self, x:int, y:int) -> int:
         """
-        Caluclated the Row index of any given pixel
+        Calculated the Row index of any given pixel
         """
 
-        # caluclates row index
+        # calculates row index
         # using a 2x2 table as an example for the calculation:
         # | x | y | formula | value
         # | 0 | 0 | 0 + (0 * 2) | 0
