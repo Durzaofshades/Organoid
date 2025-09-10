@@ -8,7 +8,22 @@ import matplotlib.pyplot as pyplot
 class image_array:
     """
     Class to hold a pixel matrix
+
+
+    data[0] = x
+    data[1] = y
+    data[2] = r
+    data[3] = g
+    data[4] = b
+    data[5] = nucleated
     """
+    #
+    #
+    #
+    #
+    #
+    #
+    
 
     def __init__(self, path:str) -> None:
         global changed_image
@@ -54,6 +69,10 @@ class image_array:
         g = np.array(g, dtype = np.uint8)
         b = np.array(b, dtype = np.uint8)
 
+        # TODO
+        # empty array for Nucleated Cells
+        # empty array for Neighbor Annotations
+
         self.data = np.array([x,y,r,g,b])
 
     def __str__(self) -> str:
@@ -95,6 +114,13 @@ class image_array:
         self.data[4][index] = b
 
         return None
+
+    def set_attribute(self, x: int, y: int, attribute: int, value):
+        global changed_image
+        changed_image = True
+
+        index = self.get_index(x,y)
+        self.data[attribute][index] = value
 
     def get_row(self, index) -> list:
         data = []
@@ -166,5 +192,22 @@ class image_array:
 
             print(f"({x},{y}) -> ({r}, {g}, {b})")
         return None
+
+    def annotate_neighbors(self) -> None:
+        """
+        Given a Radius, annotate each pixel with the average pixel value for that radius
+        """
+
+        # For Radius = 1
+        Radius = 1
+        
+        for pixel in self.data:
+            x = pixel[0]
+            y = pixel[1]
+
+            # Get each circular value
+
+            # Check width and height out of bounds error
+        
 
 
