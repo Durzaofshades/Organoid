@@ -5,34 +5,36 @@ import numpy as np
 
 from image import ImageArray
 
+import numpy as np
+
 def color_type_graph(image_path, annotation_path):
     """
-    given an image and an annotated image
+    Given an image and an annotated image, return a combined array where
+    each row represents a pixel with its coordinates, color, and whether it's nucleated.
     """
-
     image = ImageArray(image_path)
     annotation = ImageArray(annotation_path)
 
     nucleated = []
-
     cells = 0
 
+    # Loop over annotation to build nucleated mask
     for y in range(annotation.height):
         for x in range(annotation.width):
-            pixel = annotation.get_point(x,y)
-            test = False
-            if pixel[2:5] == [255,255,255]:
-                test = True
+            pixel = annotation.get_point(x, y)
+            is_nucleated = (pixel[2:5] == [255, 255, 255])
+            nucleated.append(is_nucleated)
+            if is_nucleated:
                 cells += 1
 
-            nucleated.append(test)
-    nucleated = np.array(nucleated, dtype = bool)
-    data = list(image.data)
-    data.append(nucleated)
-    #image.data = np.array(data)
+    nucleated = np.array(nucleated, dtype=bool).reshape(-1, 1)
 
-    data = np.array(data).T
-    print(data)
+    img_flat = image.data.T
+
+    # Combine into single array
+    data = np.hstack([img_flat, nucleated])
+
+    return data
 
     # x, y, r, g, b, n = image.data
 
