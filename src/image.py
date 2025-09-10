@@ -15,7 +15,7 @@ class ImageArray:
     data[2] = r
     data[3] = g
     data[4] = b
-    data[5] = nucleated
+    data[5] = nucleated (Class)
     """
     #
     #
@@ -151,8 +151,8 @@ class ImageArray:
         # | 0 | 1 | 0 + (1 * 2) | 2
         # | 1 | 1 | 1 + (1 * 2) | 3
 
-        # index = x + (y * self.width)
-        index = y + (x * self.height)
+        index = x + (y * self.width)
+        #index = y + (x * self.height)
 
         assert(type(index) is int)
         return index

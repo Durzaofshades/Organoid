@@ -3,15 +3,15 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from image import image_array
+from image import ImageArray
 
 def color_type_graph(image_path, annotation_path):
     """
     given an image and an annotated image
     """
 
-    image = image_array(image_path)
-    annotation = image_array(annotation_path)
+    image = ImageArray(image_path)
+    annotation = ImageArray(annotation_path)
 
     nucleated = []
 
@@ -24,7 +24,7 @@ def color_type_graph(image_path, annotation_path):
             if pixel[2:5] == [255,255,255]:
                 test = True
                 cells += 1
-            
+
             nucleated.append(test)
     nucleated = np.array(nucleated, dtype = bool)
     data = list(image.data)
@@ -125,7 +125,7 @@ def color_type_graph(image_path, annotation_path):
             bins=64, 
             stacked=True, 
             density = True
-            #color=['cyan', 'Purple']
+            # color=['cyan', 'Purple']
             # edgecolor='black'
         )
     plt.title("Organoid Red Color Channel")

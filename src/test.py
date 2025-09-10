@@ -89,21 +89,20 @@ def test_get_row(image) -> bool:
 def test_top_left_pixels_match_original(image) -> bool:
     fail = False
 
-    # Just check the diagonal ones to not mess with the aspect ratio
-
-    o00 = [158, 154, 223]
-    # o01 = [162, 152, 192]
-    # o10 = [165, 159, 233]
-    o11 = [160, 148, 217]
+    # Note that these values only work for this image
+    o00 = [0, 0, 213, 181, 250]
+    o01 = [0, 1, 207, 173, 236]
+    o10 = [1, 0, 207, 173, 242]
+    o11 = [1, 1, 211, 169, 232]
 
     p00 = image.get_point(0,0)
-    # p01 = image.get_point(0,1)
-    # p10 = image.get_point(1,0)
+    p01 = image.get_point(0,1)
+    p10 = image.get_point(1,0)
     p11 = image.get_point(1,1)
 
     if p00 != o00: fail = True
-    # if p01 != o01: fail = True
-    # if p10 != o10: fail = True
+    if p01 != o01: fail = True
+    if p10 != o10: fail = True
     if p11 != o11: fail = True
 
     return not fail
@@ -145,6 +144,7 @@ if __name__ == "__main__":
         ])
     
     # TODO print each tests value
+    # TODO check if x or y iterates in list
     print(f"Axis test status: {axis}")
     print(f"Get First Point test status: {get_point_first}")
     print(f"Get Middle Point test status: {get_point_middle}")
